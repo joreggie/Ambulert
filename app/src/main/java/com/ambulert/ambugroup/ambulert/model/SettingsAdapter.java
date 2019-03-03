@@ -9,9 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ambulert.ambugroup.ambulert.R;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
@@ -52,15 +49,15 @@ public class SettingsAdapter extends BaseAdapter {
         TextView settingTitle = view.findViewById(R.id.settingTitle);
         Setting s = list.get(position);
 
-        RequestOptions options = new RequestOptions()
-                .circleCrop()
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
-                .placeholder(R.mipmap.ic_launcher_round)
-                .error(R.mipmap.ic_launcher_round);
-
-        Glide.with(context).load(s.getSettingIcon()).apply(options).into(settingIcon);
-
+//        RequestOptions options = new RequestOptions()
+//                .circleCrop()
+//                .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                .skipMemoryCache(true)
+//                .placeholder(R.mipmap.ic_launcher_round)
+//                .error(R.mipmap.ic_launcher_round);
+//
+//        Glide.with(context).load(s.getSettingIcon()).apply(options).into(settingIcon);
+        settingIcon.setImageResource(s.getSettingIcon());
         settingTitle.setText(s.getSettingTitle());
 
         return view;

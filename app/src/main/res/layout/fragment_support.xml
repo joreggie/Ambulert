@@ -28,7 +28,7 @@
                 android:paddingRight="50dp">
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/imageviews1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="0dp"
@@ -36,7 +36,7 @@
                     app:srcCompat="@drawable/user" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/textviews1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="0dp"
@@ -60,7 +60,7 @@
                 android:paddingRight="50dp">
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/imageviews2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="0dp"
@@ -74,7 +74,7 @@
                     android:paddingLeft="20dp">
 
                     <TextView
-                        android:id="@+id/textView4"
+                        android:id="@+id/textviews2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="0dp"
@@ -84,7 +84,7 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/textView5"
+                        android:id="@+id/textview3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -105,7 +105,7 @@
                 android:paddingRight="40dp">
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/imageviews3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="0dp"
@@ -144,7 +144,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="62dp"
                 android:layout_marginRight="62dp"
-                android:isIndicator="true"
+                android:isIndicator="false"
                 android:numStars="5"
                 android:stepSize="0.5" />
 
