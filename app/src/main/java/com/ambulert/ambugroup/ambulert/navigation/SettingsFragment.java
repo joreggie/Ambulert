@@ -12,16 +12,17 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.ambulert.ambugroup.ambulert.R;
-import com.ambulert.ambugroup.ambulert.model.Setting;
-import com.ambulert.ambugroup.ambulert.model.SettingsAdapter;
+import com.ambulert.ambugroup.ambulert.model.AmbulertList;
+import com.ambulert.ambugroup.ambulert.model.ListAdapter;
 
 import java.util.ArrayList;
 
 public class SettingsFragment extends Fragment {
 
+    private final String TAG = "SettingsFragment";
     ListView lv;
-    ArrayList<Setting> list = new ArrayList<>();
-    SettingsAdapter adapter;
+    ArrayList<AmbulertList> ambulertList = new ArrayList<>();
+    ListAdapter adapter;
 
     @Nullable
     @Override
@@ -34,10 +35,12 @@ public class SettingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         lv = view.findViewById(R.id.listSettings);
-        adapter = new SettingsAdapter(getActivity(), list);
+        adapter = new ListAdapter(getActivity(), ambulertList);
 
-        list.add(new Setting(R.drawable.hospital,"Account"));
-        list.add(new Setting(R.drawable.user,"Account"));
+        ambulertList.add(new AmbulertList(R.drawable.user,"Manage Profile"));
+        ambulertList.add(new AmbulertList(R.drawable.preference,"User Preferences"));
+        ambulertList.add(new AmbulertList(R.drawable.downloads,"Saved Reports"));
+
 
         lv.setAdapter(adapter);
 

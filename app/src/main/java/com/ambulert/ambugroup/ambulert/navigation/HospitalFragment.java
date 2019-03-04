@@ -9,9 +9,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.ambulert.ambugroup.ambulert.R;
+import com.ambulert.ambugroup.ambulert.model.AmbulertList;
+import com.ambulert.ambugroup.ambulert.model.ListAdapter;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,6 +33,10 @@ public class HospitalFragment  extends Fragment implements OnMapReadyCallback {
     private final String TAG = "HospitalFragment";
     ArrayList<Marker> markers = new ArrayList<Marker>();
     private GoogleMap googleMap;
+    ListView lv ;
+    ArrayList<AmbulertList> ambulertList = new ArrayList<>();
+    ListAdapter adapter ;
+
 
     @Nullable
     @Override
@@ -44,6 +51,13 @@ public class HospitalFragment  extends Fragment implements OnMapReadyCallback {
         SupportMapFragment supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         supportMapFragment.getMapAsync(this);
 
+        lv = view.findViewById(R.id.listHospital);
+        adapter = new ListAdapter(getActivity(), ambulertList);
+
+        ambulertList.add(new AmbulertList(R.drawable.hospital,"Chong Hua Hospital"));
+        ambulertList.add(new AmbulertList(R.drawable.hospital,"St. Vincent Hospital"));
+
+        lv.setAdapter(adapter);
     }
 
     @Override
@@ -75,8 +89,6 @@ public class HospitalFragment  extends Fragment implements OnMapReadyCallback {
         setMarker(locality, lat, lng);
 
     }
-
-
 
     private void goToLocationZoom(double lat, double lng, float zoom) {
         LatLng ll = new LatLng(lat, lng);

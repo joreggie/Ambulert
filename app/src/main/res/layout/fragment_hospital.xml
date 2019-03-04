@@ -16,9 +16,18 @@
         android:layout_marginRight="30dp"
         android:layout_marginBottom="10dp" />
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="List of hospitals within a  10 km radius"
+        android:textSize="18sp" />
+
     <ListView
         android:id="@+id/listHospital"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_margin="20dp" />
 
 </LinearLayout>

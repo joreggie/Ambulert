@@ -12,26 +12,26 @@ import com.ambulert.ambugroup.ambulert.R;
 
 import java.util.ArrayList;
 
-public class SettingsAdapter extends BaseAdapter {
+public class ListAdapter extends BaseAdapter {
 
     Context context;
-    ArrayList<Setting> list;
+    ArrayList<AmbulertList> ambulertList;
     LayoutInflater inflater;
 
-    public SettingsAdapter(Context context, ArrayList<Setting> list) {
+    public ListAdapter(Context context, ArrayList<AmbulertList> ambulertList) {
         this.context = context;
-        this.list = list;
+        this.ambulertList = ambulertList;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return list.size();
+        return ambulertList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return list.get(position);
+        return ambulertList.get(position);
     }
 
     @Override
@@ -45,20 +45,12 @@ public class SettingsAdapter extends BaseAdapter {
 
         view = (view == null) ? inflater.inflate(R.layout.layout_settings_item,null) : view;
 
-        ImageView settingIcon = view.findViewById(R.id.settingIcon);
-        TextView settingTitle = view.findViewById(R.id.settingTitle);
-        Setting s = list.get(position);
+        ImageView listIcon = view.findViewById(R.id.settingIcon);
+        TextView listTitle = view.findViewById(R.id.settingTitle);
+        AmbulertList s = ambulertList.get(position);
 
-//        RequestOptions options = new RequestOptions()
-//                .circleCrop()
-//                .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                .skipMemoryCache(true)
-//                .placeholder(R.mipmap.ic_launcher_round)
-//                .error(R.mipmap.ic_launcher_round);
-//
-//        Glide.with(context).load(s.getSettingIcon()).apply(options).into(settingIcon);
-        settingIcon.setImageResource(s.getSettingIcon());
-        settingTitle.setText(s.getSettingTitle());
+        listIcon.setImageResource(s.getListIcon());
+        listTitle.setText(s.getListTitle());
 
         return view;
     }

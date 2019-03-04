@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import com.ambulert.ambugroup.ambulert.R;
 
 public class HistoryFragment extends Fragment {
+
+    private final String TAG="HistoryFragment";
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
