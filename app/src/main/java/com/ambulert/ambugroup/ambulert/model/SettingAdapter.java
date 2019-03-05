@@ -12,26 +12,26 @@ import com.ambulert.ambugroup.ambulert.R;
 
 import java.util.ArrayList;
 
-public class ListAdapter extends BaseAdapter {
+public class SettingAdapter extends BaseAdapter {
 
     Context context;
-    ArrayList<AmbulertList> ambulertList;
+    ArrayList<Setting> list;
     LayoutInflater inflater;
 
-    public ListAdapter(Context context, ArrayList<AmbulertList> ambulertList) {
+    public SettingAdapter(Context context, ArrayList<Setting> list) {
         this.context = context;
-        this.ambulertList = ambulertList;
+        this.list = list;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return ambulertList.size();
+        return list.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return ambulertList.get(position);
+        return list.get(position);
     }
 
     @Override
@@ -45,12 +45,12 @@ public class ListAdapter extends BaseAdapter {
 
         view = (view == null) ? inflater.inflate(R.layout.layout_settings_item,null) : view;
 
-        ImageView listIcon = view.findViewById(R.id.settingIcon);
-        TextView listTitle = view.findViewById(R.id.settingTitle);
-        AmbulertList s = ambulertList.get(position);
+        ImageView settingIcon = view.findViewById(R.id.settingIcon);
+        TextView settingTitle = view.findViewById(R.id.settingTitle);
+        Setting s = list.get(position);
 
-        listIcon.setImageResource(s.getListIcon());
-        listTitle.setText(s.getListTitle());
+        settingIcon.setImageResource(s.getSettingIcon());
+        settingTitle.setText(s.getSettingTitle());
 
         return view;
     }
