@@ -95,7 +95,7 @@ public class HospitalFragment  extends Fragment implements OnMapReadyCallback {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        goToLocationZoom(10.2820, 123.8813,10);
+        goToLocationZoom(10.2820, 123.8813,13);
     }
 
     public void geoLocate(String location) throws IOException {
