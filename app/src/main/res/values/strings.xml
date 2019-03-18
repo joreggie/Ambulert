@@ -11,4 +11,5 @@
         <item>User</item>
         <item>Responder</item>
     </string-array>
+    <string name="title_activity_user_report">userReport</string>
 </resources>

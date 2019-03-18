@@ -2,6 +2,7 @@ package com.ambulert.ambugroup.ambulert.navigation;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -14,17 +15,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ambulert.ambugroup.ambulert.R;
 import com.ambulert.ambugroup.ambulert.model.Hospital;
 import com.ambulert.ambugroup.ambulert.model.HospitalAdapter;
+import com.ambulert.ambugroup.ambulert.userReport;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -44,7 +49,9 @@ public class HospitalFragment  extends Fragment implements OnMapReadyCallback {
     HospitalAdapter adapter ;
 
     AdapterView.AdapterContextMenuInfo info;
-
+    Button alertHospital;
+    TextView currentLocation;
+    String lat,lng;
 
     @Nullable
     @Override
@@ -56,6 +63,17 @@ public class HospitalFragment  extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        alertHospital = view.findViewById(R.id.alertHospitals);
+        currentLocation = view.findViewById(R.id.currentLocation);
+        alertHospital.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),userReport.class);
+                startActivity(intent);
+            }
+        });
+
+
         SupportMapFragment supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         supportMapFragment.getMapAsync(this);
 
@@ -67,6 +85,8 @@ public class HospitalFragment  extends Fragment implements OnMapReadyCallback {
 
         lv.setAdapter(adapter);
         registerForContextMenu(lv);
+
+
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -85,6 +105,8 @@ public class HospitalFragment  extends Fragment implements OnMapReadyCallback {
         });
     }
 
+
+
     @Override
     public void onMapReady(GoogleMap map) {
         googleMap = map;
@@ -92,10 +114,17 @@ public class HospitalFragment  extends Fragment implements OnMapReadyCallback {
             //getHospitals();
             geoLocate("St. Vincent General Hospital");
             geoLocate("Chong Hua Hospital");
+            lat = getArguments().getString("lat");
+            lng = getArguments().getString("lng");
+            Toast.makeText(getActivity(), lat, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), lng, Toast.LENGTH_SHORT).show();
+            if(lat!=null && lng != null){
+                goToLocationZoom(Double.parseDouble(lat), Double.parseDouble(lng),15);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        goToLocationZoom(10.2820, 123.8813,13);
+
     }
 
     public void geoLocate(String location) throws IOException {
@@ -103,20 +132,34 @@ public class HospitalFragment  extends Fragment implements OnMapReadyCallback {
         Geocoder gc = new Geocoder(getActivity());
         List<Address> list = gc.getFromLocationName(location, 1);
         Address address = list.get(0);
-        String locality = address.getLocality();
-
-        Toast.makeText(getActivity(), locality, Toast.LENGTH_LONG).show();
+        String addressLine = address.getAddressLine(0);
 
         double lat = address.getLatitude();
         double lng = address.getLongitude();
-        goToLocationZoom(lat, lng, 15);
 
-        setMarker(locality, lat, lng);
+        setMarker(addressLine, lat, lng);
+    }
 
+    public void getAddress(double lat, double lng) throws IOException {
+        Geocoder geocoder = new Geocoder(getActivity());
+            List<Address> addresses = geocoder.getFromLocation(lat,lng,1);
+            Address obj = addresses.get(0);
+            String add = obj.getAddressLine(0);
+            currentLocation.setText(add);
     }
 
     private void goToLocationZoom(double lat, double lng, float zoom) {
         LatLng ll = new LatLng(lat, lng);
+        try {
+            getAddress(lat,lng);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        MarkerOptions mp = new MarkerOptions();
+        mp.position(new LatLng(lat,lng));
+        mp.title("My Current Location");
+        mp.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+        googleMap.addMarker(mp);
         CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, zoom);
         googleMap.moveCamera(update);
 

@@ -40,7 +40,8 @@
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ResponderSignIn" />
-        <activity android:name=".ResponderSignUp"></activity>
+        <activity android:name=".ResponderSignUp" />
+        <activity android:name=".userReport"></activity>
     </application>
 
 </manifest>

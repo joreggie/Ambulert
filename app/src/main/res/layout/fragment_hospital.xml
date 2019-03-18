@@ -5,6 +5,34 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0"
+            android:text="Your location:"
+            android:textColor="#0066ff"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/currentLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:ellipsize="end" />
+    </LinearLayout>
+
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -20,14 +48,31 @@
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:gravity="center"
         android:text="List of hospitals within a  10 km radius"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <ListView
         android:id="@+id/listHospital"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="20dp" />
+        android:layout_height="129dp"
+        android:layout_margin="10dp">
+
+    </ListView>
+
+    <Button
+        android:id="@+id/alertHospitals"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="30dp"
+        android:layout_weight="1"
+        android:background="@color/colorPrimary"
+        android:text="Alert"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF" />
 
 </LinearLayout>
