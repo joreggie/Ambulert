@@ -69,6 +69,7 @@ public class HospitalFragment  extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(),userReport.class);
+                intent.putExtra("address",currentLocation.getText().toString());
                 startActivity(intent);
             }
         });
