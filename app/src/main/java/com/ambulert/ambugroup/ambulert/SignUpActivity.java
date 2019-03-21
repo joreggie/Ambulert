@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
@@ -36,7 +38,6 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         userSignUp = findViewById(R.id.signUp);
-
         layoutFirstname = findViewById(R.id.layoutSignUpFirstName);
         layoutMiddlename = findViewById(R.id.layoutSignUpMiddleName);
         layoutLastname = findViewById(R.id.layoutSignUpLastName);
@@ -144,4 +145,5 @@ public class SignUpActivity extends AppCompatActivity {
         return valid;
 
     }
+
 }
