@@ -5,9 +5,9 @@ import com.ambulert.ambugroup.ambulert.model.SignInResponse;
 import com.ambulert.ambugroup.ambulert.model.SignInUser;
 import com.ambulert.ambugroup.ambulert.model.SignUpResponse;
 import com.ambulert.ambugroup.ambulert.model.SignUpUser;
+import com.ambulert.ambugroup.ambulert.model.UserReportResponse;
 
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -26,5 +26,5 @@ public interface Ambulert {
 
     @Headers("Content-Type: application/json")
     @POST("alert")
-    Call<Response> alertHospital(@Body AlertHospital body);
+    Call<UserReportResponse> alertHospital(@Body AlertHospital body);
 }

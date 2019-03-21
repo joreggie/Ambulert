@@ -7,10 +7,12 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.ambulert.ambugroup.ambulert.api.Ambulert;
+import com.ambulert.ambugroup.ambulert.model.PreferenceDataUser;
 import com.ambulert.ambugroup.ambulert.model.SignInResponse;
 import com.ambulert.ambugroup.ambulert.model.SignInUser;
 import com.ambulert.ambugroup.ambulert.navigation.Home;
@@ -27,6 +29,8 @@ public class SignInActivity extends AppCompatActivity {
     TextInputEditText inputSignInEmail,inputSignInPassword;
 
     Button signIn;
+    Intent intentLogin;
+    private final AlphaAnimation btnClick = new AlphaAnimation(1F,0.8F);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +45,15 @@ public class SignInActivity extends AppCompatActivity {
         inputSignInEmail = findViewById(R.id.inputSignInEmail);
         inputSignInPassword = findViewById(R.id.inputSignInPassword);
 
+        intentLogin = new Intent(SignInActivity.this, Home.class);
+        if(PreferenceDataUser.getUserLoggedInStatus(SignInActivity.this)){
+            startActivity(intentLogin);
+        }
 
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(btnClick);
                 String emailSignIn,passwordSignIn;
 
                 emailSignIn = inputSignInEmail.getText().toString();
@@ -63,8 +72,12 @@ public class SignInActivity extends AppCompatActivity {
                             SignInResponse res = response.body();
                             if(res.getSignin().equals("success"))
                             {
-                                Intent intent = new Intent(SignInActivity.this,Home.class);
-                                startActivity(intent);
+                                PreferenceDataUser.setLoggedInUserid(SignInActivity.this, res.getUserid());
+                                PreferenceDataUser.setLoggedInFirstname(SignInActivity.this, res.getUser_firstname());
+                                PreferenceDataUser.setLoggedInMiddlename(SignInActivity.this, res.getUser_middlename());
+                                PreferenceDataUser.setLoggedInLastname(SignInActivity.this, res.getUser_lastname());
+                                PreferenceDataUser.setLoggedInEmail(SignInActivity.this, res.getUser_email());
+                                startActivity(intentLogin);
                                 Toast.makeText(SignInActivity.this, res.getMessage(), Toast.LENGTH_SHORT).show();
                             } else{
                                 Toast.makeText(SignInActivity.this, res.getMessage(), Toast.LENGTH_SHORT).show();

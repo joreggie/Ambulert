@@ -14,6 +14,7 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -53,6 +54,7 @@ public class HospitalFragment  extends Fragment implements OnMapReadyCallback {
     TextView currentLocation;
     String lat,lng;
 
+    private final AlphaAnimation btnClick = new AlphaAnimation(1F,0.8F);
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -68,6 +70,7 @@ public class HospitalFragment  extends Fragment implements OnMapReadyCallback {
         alertHospital.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(btnClick);
                 Intent intent = new Intent(getActivity(),userReport.class);
                 intent.putExtra("address",currentLocation.getText().toString());
                 startActivity(intent);

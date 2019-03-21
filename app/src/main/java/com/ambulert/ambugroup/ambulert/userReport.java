@@ -3,6 +3,7 @@ package com.ambulert.ambugroup.ambulert;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.ambulert.ambugroup.ambulert.api.Ambulert;
 import com.ambulert.ambugroup.ambulert.model.AlertHospital;
+import com.ambulert.ambugroup.ambulert.model.UserReportResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,7 +23,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class userReport extends AppCompatActivity {
 
-    Button submit,btnAccident,btnPregnancy,btnIllness;
+    Button submit;
+    FloatingActionButton btnAccident,btnPregnancy,btnIllness;
     TextView textAccident,textPregnancy,textIllness,currentLocation1;
     TextInputEditText reportOthers;
     String location,emergencyType,others;
@@ -33,6 +36,10 @@ public class userReport extends AppCompatActivity {
 
         Intent prev = getIntent();
         String address=prev.getStringExtra("address");
+
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Report");
 
         currentLocation1=findViewById(R.id.currentLocation1);
         currentLocation1.setText(address);
@@ -73,7 +80,6 @@ public class userReport extends AppCompatActivity {
             }
         });
 
-
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,19 +91,30 @@ public class userReport extends AppCompatActivity {
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
                 Ambulert request = retrofit.create(Ambulert.class);
-                Call<Response> response = request.alertHospital(new AlertHospital(location,emergencyType,others));
-                response.enqueue(new Callback<Response>() {
+                Call<UserReportResponse> response = request.alertHospital(new AlertHospital(location,emergencyType,others));
+                response.enqueue(new Callback<UserReportResponse>() {
                     @Override
-                    public void onResponse(Call<Response> call, Response<Response> response) {
-
+                    public void onResponse(Call<UserReportResponse> call, Response<UserReportResponse> response) {
+                        UserReportResponse res = response.body();
+                        if(res.getAdd_report().equals("success")){
+                            Toast.makeText(userReport.this, "Report submitted, please wait for a hospital to respond.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(userReport.this, "Report was not submitted, please try again.", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
-                    public void onFailure(Call<Response> call, Throwable t) {
+                    public void onFailure(Call<UserReportResponse> call, Throwable t) {
                         Toast.makeText(userReport.this, "Please check your internet connection.", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

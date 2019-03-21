@@ -2,6 +2,7 @@ package com.ambulert.ambugroup.ambulert.navigation;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -22,6 +23,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.ambulert.ambugroup.ambulert.R;
 
@@ -42,6 +45,13 @@ public class Home extends AppCompatActivity
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Fragment fragment = new HistoryFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+
+        ft.replace(R.id.screen_area, fragment);
+        ft.commit();
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -49,11 +59,18 @@ public class Home extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerLayout = navigationView.getHeaderView(0);
+
+        TextView tvName  = headerLayout.findViewById(R.id.userName);
+//        tvName.setText(first_name + " " + last_name);
+        TextView tvEmail = headerLayout.findViewById(R.id.userEmail);
+//        tvEmail.setText(email);
+
         navigationView.setNavigationItemSelectedListener(this);
 
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
-//        navigationView.setCheckedItem(R.id.home);
+        navigationView.setCheckedItem(R.id.nav_history);
 
         locman = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
@@ -117,7 +134,10 @@ public class Home extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            Intent a = new Intent(Intent.ACTION_MAIN);
+            a.addCategory(Intent.CATEGORY_HOME);
+            a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(a);
         }
     }
 

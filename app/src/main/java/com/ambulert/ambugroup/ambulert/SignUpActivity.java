@@ -7,6 +7,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -27,6 +28,8 @@ public class SignUpActivity extends AppCompatActivity {
     TextInputEditText inputFirstname, inputMiddlename, inputLastname, inputEmail, inputPassword;
     Button userSignUp;
 
+
+    private final AlphaAnimation btnClick = new AlphaAnimation(1F,0.8F);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +52,7 @@ public class SignUpActivity extends AppCompatActivity {
         userSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(btnClick);
                 String firstname,lastname,middlename,email,password;
 
                 firstname=inputFirstname.getText().toString();
