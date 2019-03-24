@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "374131974552",
+    "firebase_url": "https://ambulert.firebaseio.com",
+    "project_id": "ambulert",
+    "storage_bucket": "ambulert.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374131974552:android:5a7cdfa58d06056a",
+        "android_client_info": {
+          "package_name": "com.ambulert.ambugroup.ambulert"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "374131974552-h4t462972j6o5gvomhl28jrb17rd4q8h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ambulert.ambugroup.ambulert",
+            "certificate_hash": "d77a61de8655c835cdbdc1dedc678b50c0a2c8f6"
+          }
+        },
+        {
+          "client_id": "374131974552-djjn2i222h6h1n28q5s186e8419c20rj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWmk-juFp6N-a8LzSWIBlTPVJG1Op8n18"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "374131974552-djjn2i222h6h1n28q5s186e8419c20rj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

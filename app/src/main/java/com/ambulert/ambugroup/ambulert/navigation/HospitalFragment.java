@@ -122,8 +122,11 @@ public class HospitalFragment  extends Fragment implements OnMapReadyCallback {
             lng = getArguments().getString("lng");
             Toast.makeText(getActivity(), lat, Toast.LENGTH_SHORT).show();
             Toast.makeText(getActivity(), lng, Toast.LENGTH_SHORT).show();
+
             if(lat!=null && lng != null){
                 goToLocationZoom(Double.parseDouble(lat), Double.parseDouble(lng),15);
+            }else{
+                goToLocationZoom(10.3157,123.8854,15);
             }
         } catch (IOException e) {
             e.printStackTrace();

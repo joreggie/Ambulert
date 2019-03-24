@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 28
@@ -39,4 +40,9 @@ dependencies {
 
     //pusher.js
     implementation 'com.pusher:pusher-java-client:1.5.0'
+
+    // google firebase cloud messsaging
+    implementation 'com.google.firebase:firebase-core:16.0.8'
+    implementation 'com.google.firebase:firebase-messaging:17.4.0'
+
 }

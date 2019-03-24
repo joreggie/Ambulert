@@ -2,21 +2,29 @@ package com.ambulert.ambugroup.ambulert;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.ambulert.ambugroup.ambulert.api.Ambulert;
+import com.ambulert.ambugroup.ambulert.model.FCMToken;
 import com.ambulert.ambugroup.ambulert.model.PreferenceDataUser;
 import com.ambulert.ambugroup.ambulert.model.SignInResponse;
 import com.ambulert.ambugroup.ambulert.model.SignInUser;
 import com.ambulert.ambugroup.ambulert.navigation.Home;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,12 +33,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SignInActivity extends AppCompatActivity {
 
+    private final String TAG = "SignInActivity";
+
     TextInputLayout layoutSignInEmail,layoutSignInPassword;
     TextInputEditText inputSignInEmail,inputSignInPassword;
 
     Button signIn;
     Intent intentLogin;
     private final AlphaAnimation btnClick = new AlphaAnimation(1F,0.8F);
+
+    String fcmToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +72,22 @@ public class SignInActivity extends AppCompatActivity {
                 passwordSignIn = inputSignInPassword.getText().toString();
 
                 if (validateForm(emailSignIn,passwordSignIn)){
+
+                    FirebaseInstanceId.getInstance().getInstanceId()
+                        .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                                if (!task.isSuccessful()) {
+                                    Log.w(TAG, "getInstanceId failed", task.getException());
+                                    return;
+                                }
+
+                                // Get new Instance ID token
+                                fcmToken = task.getResult().getToken();
+                                PreferenceDataUser.setLoggedInFCM(SignInActivity.this,fcmToken);
+                        }
+                    });
+
                     Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl(Ambulert.BASE_URL)
                             .addConverterFactory(GsonConverterFactory.create())
@@ -77,7 +105,9 @@ public class SignInActivity extends AppCompatActivity {
                                 PreferenceDataUser.setLoggedInMiddlename(SignInActivity.this, res.getUser_middlename());
                                 PreferenceDataUser.setLoggedInLastname(SignInActivity.this, res.getUser_lastname());
                                 PreferenceDataUser.setLoggedInEmail(SignInActivity.this, res.getUser_email());
+                                PreferenceDataUser.setUserLoggedInStatus(SignInActivity.this,true);
                                 startActivity(intentLogin);
+                                saveFCMToken(res.getUserid());
                                 Toast.makeText(SignInActivity.this, res.getMessage(), Toast.LENGTH_SHORT).show();
                             } else{
                                 Toast.makeText(SignInActivity.this, res.getMessage(), Toast.LENGTH_SHORT).show();
@@ -90,6 +120,28 @@ public class SignInActivity extends AppCompatActivity {
                         }
                     });
                 }
+            }
+
+            public void saveFCMToken(String userid){
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(Ambulert.BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                Ambulert request = retrofit.create(Ambulert.class);
+                Call<ResponseBody> responseBodyCall = request.userFCM(new FCMToken(userid,fcmToken));
+                responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        Log.v(TAG,"FCM token saved");
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    }
+                });
+
             }
 
             private boolean validateForm(String emailSignIn, String passwordSignIn){

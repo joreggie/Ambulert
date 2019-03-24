@@ -1,12 +1,15 @@
 package com.ambulert.ambugroup.ambulert.model;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class UserReportResponse {
 
     @SerializedName("add_report")
+    @Expose
     private String add_report;
     @SerializedName("message")
+    @Expose
     private String message;
 
     public UserReportResponse(String add_report, String message) {

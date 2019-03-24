@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.ambulert.ambugroup.ambulert.api.Ambulert;
 import com.ambulert.ambugroup.ambulert.model.AlertHospital;
+import com.ambulert.ambugroup.ambulert.model.PreferenceDataUser;
 import com.ambulert.ambugroup.ambulert.model.UserReportResponse;
 
 import retrofit2.Call;
@@ -27,7 +28,8 @@ public class userReport extends AppCompatActivity {
     FloatingActionButton btnAccident,btnPregnancy,btnIllness;
     TextView textAccident,textPregnancy,textIllness,currentLocation1;
     TextInputEditText reportOthers;
-    String location,emergencyType,others;
+    String userid,location,emergencyType,others;
+    private final String TAG = "userReport";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,8 @@ public class userReport extends AppCompatActivity {
         textPregnancy=findViewById(R.id.textPregnancy);
         textIllness=findViewById(R.id.textIllness);
         submit=findViewById(R.id.btnSubmitReport);
+
+        userid = PreferenceDataUser.getLoggedInUserid(userReport.this);
 
         btnAccident.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +95,7 @@ public class userReport extends AppCompatActivity {
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
                 Ambulert request = retrofit.create(Ambulert.class);
-                Call<UserReportResponse> response = request.alertHospital(new AlertHospital(location,emergencyType,others));
+                Call<UserReportResponse> response = request.alertHospital(new AlertHospital(userid,location,emergencyType,others));
                 response.enqueue(new Callback<UserReportResponse>() {
                     @Override
                     public void onResponse(Call<UserReportResponse> call, Response<UserReportResponse> response) {

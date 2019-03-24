@@ -11,6 +11,7 @@ public class PreferenceDataUser {
     static final String pref_lastname = "user_lastname";
     static final String pref_email = "user_email";
     static final String pref_status = "user_status";
+    static final String pref_fcm = "user_fcm";
 
     public static SharedPreferences getSharedPreferences(Context ctx)
     {
@@ -53,6 +54,14 @@ public class PreferenceDataUser {
         editor.commit();
     }
 
+    public static void setLoggedInFCM(Context ctx, String fcm)
+    {
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.remove(pref_fcm);
+        editor.putString(pref_fcm, fcm);
+        editor.commit();
+    }
+
     //    getting shared preferences
     public static String getLoggedInUserid(Context ctx)
     {
@@ -73,6 +82,10 @@ public class PreferenceDataUser {
     public static String getLoggedInEmail(Context ctx)
     {
         return getSharedPreferences(ctx).getString(pref_email, "");
+    }
+    public static String getLoggedInFCM(Context ctx)
+    {
+        return getSharedPreferences(ctx).getString(pref_fcm, "");
     }
 
     //  status
@@ -99,6 +112,7 @@ public class PreferenceDataUser {
         editor.remove(pref_lastname);
         editor.remove(pref_email);
         editor.remove(pref_status);
+        editor.remove(pref_fcm);
 
         editor.commit();
     }
