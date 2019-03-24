@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="true"
-            app:srcCompat="@drawable/user" />
+            app:srcCompat="@drawable/accident" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/btnPregnancy"
@@ -71,7 +71,7 @@
             android:layout_marginRight="50dp"
             android:layout_weight="1"
             android:clickable="true"
-            app:srcCompat="@drawable/ic_menu_send" />
+            app:srcCompat="@drawable/pregnancy" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/btnIllness"
@@ -79,41 +79,37 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="true"
-            app:srcCompat="@drawable/support" />
+            app:srcCompat="@drawable/illness" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/textAccident"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="75dp"
             android:layout_weight="0"
-            android:gravity="center_horizontal"
             android:text="Accident" />
 
         <TextView
             android:id="@+id/textPregnancy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="35dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginLeft="30dp"
             android:layout_weight="0"
-            android:gravity="center_horizontal"
             android:text="Pregnancy" />
 
         <TextView
             android:id="@+id/textIllness"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
+            android:layout_marginLeft="38dp"
             android:layout_weight="0"
-            android:gravity="center_horizontal"
             android:text="Illness" />
     </LinearLayout>
 

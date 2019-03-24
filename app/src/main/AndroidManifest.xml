@@ -22,7 +22,7 @@
         android:theme="@style/AppTheme">
         <uses-library android:name="com.google.android.maps" />
 
-        <service android:name="com.ambulert.ambugroup.ambulert.MyFirebaseMessagingService">
+        <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -46,8 +46,8 @@
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ResponderSignIn" />
-        <activity android:name=".ResponderSignUp" />
-        <activity android:name=".userReport"></activity>
+        <activity android:name=".userReport" />
+        <activity android:name=".ResponderHome"></activity>
     </application>
 
 </manifest>

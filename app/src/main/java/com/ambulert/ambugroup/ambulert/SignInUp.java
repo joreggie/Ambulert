@@ -50,11 +50,7 @@ public class SignInUp extends AppCompatActivity {
                 if(spinner.equals("User")){
                     intentSignUp = new Intent(SignInUp.this,SignUpActivity.class);
                     startActivity(intentSignUp);
-                }else if(spinner.equals("Responder")){
-                    intentSignUp = new Intent(SignInUp.this,ResponderSignUp.class);
-                    startActivity(intentSignUp);
                 }
-
             }
         });
 
