@@ -27,6 +27,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ambulert.ambugroup.ambulert.R;
+import com.ambulert.ambugroup.ambulert.model.PreferenceDataUser;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -189,6 +190,7 @@ public class Home extends AppCompatActivity
             toolbar.setTitle("Settings");
         } else if (id == R.id.nav_signout) {
             finish();
+            PreferenceDataUser.clearLoggedInUser(Home.this);
         }
 
         if(fragment != null){

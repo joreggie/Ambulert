@@ -28,7 +28,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.kosalgeek.android.photoutil.CameraPhoto;
-import com.kosalgeek.android.photoutil.GalleryPhoto;
 import com.kosalgeek.android.photoutil.ImageLoader;
 
 import java.io.File;
@@ -218,6 +217,7 @@ public class userReport extends AppCompatActivity {
         finish();
         return true;
     }
+
     // for generating name for folder upon uploading to cloud storage
     public String randomString( int len ){
         StringBuilder sb = new StringBuilder( len );

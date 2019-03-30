@@ -51,6 +51,10 @@ public class SignInActivity extends AppCompatActivity {
 
         signIn = findViewById(R.id.signIn);
 
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Sign in");
+
         layoutSignInEmail = findViewById(R.id.layoutSignInEmail);
         layoutSignInPassword= findViewById(R.id.layoutSignInPassword);
 
@@ -144,7 +148,7 @@ public class SignInActivity extends AppCompatActivity {
 
             }
 
-            private boolean validateForm(String emailSignIn, String passwordSignIn){
+            private boolean validateForm(String emailSignIn, String passwordSignIn) {
                 boolean valid = true;
                 if (TextUtils.isEmpty(passwordSignIn)) {
                     layoutSignInPassword.setError("Required");
@@ -166,5 +170,11 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

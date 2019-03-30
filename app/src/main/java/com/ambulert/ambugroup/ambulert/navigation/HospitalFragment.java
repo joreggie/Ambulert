@@ -77,7 +77,6 @@ public class HospitalFragment  extends Fragment implements OnMapReadyCallback {
             }
         });
 
-
         SupportMapFragment supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         supportMapFragment.getMapAsync(this);
 

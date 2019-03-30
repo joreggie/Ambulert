@@ -8,6 +8,7 @@ import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.ambulert.ambugroup.ambulert.model.PreferenceDataResponder;
 import com.ambulert.ambugroup.ambulert.model.PreferenceDataUser;
 import com.ambulert.ambugroup.ambulert.navigation.Home;
 
@@ -59,10 +60,10 @@ public class SignInUp extends AppCompatActivity {
             intentLogin = new Intent(SignInUp.this, Home.class);
             startActivity(intentLogin);
         }
-//        if(PreferenceDataResponder.getUserLoggedInStatus(SignInUp.this)){
-//            intentLogin = new Intent(SignInUp.this, ResponderHome.class);
-//            startActivity(intentLogin);
-//        }
+        if(PreferenceDataResponder.getResponderLoggedInStatus(SignInUp.this)){
+            intentLogin = new Intent(SignInUp.this, ResponderHome.class);
+            startActivity(intentLogin);
+        }
 
 
     }

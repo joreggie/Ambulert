@@ -2,6 +2,8 @@ package com.ambulert.ambugroup.ambulert.api;
 
 import com.ambulert.ambugroup.ambulert.model.AlertHospital;
 import com.ambulert.ambugroup.ambulert.model.FCMToken;
+import com.ambulert.ambugroup.ambulert.model.ResponderSignInResponse;
+import com.ambulert.ambugroup.ambulert.model.SignInResponder;
 import com.ambulert.ambugroup.ambulert.model.SignInResponse;
 import com.ambulert.ambugroup.ambulert.model.SignInUser;
 import com.ambulert.ambugroup.ambulert.model.SignUpResponse;
@@ -27,10 +29,16 @@ public interface Ambulert {
     Call<SignInResponse> signinUser(@Body SignInUser body);
 
     @Headers("Content-Type: application/json")
+    @POST("signin/responder")
+    Call<ResponderSignInResponse> signinResponder (@Body SignInResponder body);
+
+    @Headers("Content-Type: application/json")
     @POST("alert")
     Call<UserReportResponse> alertHospital(@Body AlertHospital body);
 
     @Headers("Content-Type: application/json")
     @POST("user-fcm")
     Call<ResponseBody> userFCM(@Body FCMToken body);
+
+
 }
