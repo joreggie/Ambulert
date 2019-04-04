@@ -185,9 +185,6 @@ public class Home extends AppCompatActivity
         } else if (id == R.id.nav_support) {
             fragment = new SupportFragment();
             toolbar.setTitle("Support");
-        } else if (id == R.id.nav_settings) {
-            fragment = new SettingsFragment();
-            toolbar.setTitle("Settings");
         } else if (id == R.id.nav_signout) {
             finish();
             PreferenceDataUser.clearLoggedInUser(Home.this);

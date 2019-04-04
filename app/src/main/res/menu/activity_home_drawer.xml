@@ -16,10 +16,6 @@
             android:id="@+id/nav_support"
             android:icon="@drawable/support"
             android:title="Support" />
-        <item
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/settings"
-            android:title="Settings" />
     </group>
 
     <item android:title="Others">

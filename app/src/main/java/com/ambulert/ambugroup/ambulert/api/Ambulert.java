@@ -8,6 +8,8 @@ import com.ambulert.ambugroup.ambulert.model.SignInResponse;
 import com.ambulert.ambugroup.ambulert.model.SignInUser;
 import com.ambulert.ambugroup.ambulert.model.SignUpResponse;
 import com.ambulert.ambugroup.ambulert.model.SignUpUser;
+import com.ambulert.ambugroup.ambulert.model.UserId;
+import com.ambulert.ambugroup.ambulert.model.UserIdResponse;
 import com.ambulert.ambugroup.ambulert.model.UserReportResponse;
 
 import okhttp3.ResponseBody;
@@ -40,5 +42,8 @@ public interface Ambulert {
     @POST("user-fcm")
     Call<ResponseBody> userFCM(@Body FCMToken body);
 
+    @Headers("Content-Type: application/json")
+    @POST("user/reports")
+    Call<UserIdResponse> userId(@Body UserId body);
 
 }

@@ -35,9 +35,7 @@ public class SignInResponse {
         this.message = message;
     }
 
-    public String getUserid() {
-        return userid;
-    }
+    public String getUserid() { return userid; }
 
     public void setUserid(String userid) {
         this.userid = userid;

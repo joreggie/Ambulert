@@ -47,7 +47,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/reportDate"
+                        android:id="@+id/reportType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -61,10 +61,11 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/reportType"
+                        android:id="@+id/reportDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:gravity="right"
                         android:text="TextView" />
 
                     <TextView
