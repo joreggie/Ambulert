@@ -2,6 +2,7 @@ package com.ambulert.ambugroup.ambulert.api;
 
 import com.ambulert.ambugroup.ambulert.model.AlertHospital;
 import com.ambulert.ambugroup.ambulert.model.FCMToken;
+import com.ambulert.ambugroup.ambulert.model.HospitalNameResponse;
 import com.ambulert.ambugroup.ambulert.model.ResponderSignInResponse;
 import com.ambulert.ambugroup.ambulert.model.SignInResponder;
 import com.ambulert.ambugroup.ambulert.model.SignInResponse;
@@ -15,6 +16,7 @@ import com.ambulert.ambugroup.ambulert.model.UserReportResponse;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
@@ -46,4 +48,7 @@ public interface Ambulert {
     @POST("user/reports")
     Call<UserIdResponse> userId(@Body UserId body);
 
+    @Headers("Content-Type: application/json")
+    @GET("hospitals")
+    Call<HospitalNameResponse> getHospital();
 }

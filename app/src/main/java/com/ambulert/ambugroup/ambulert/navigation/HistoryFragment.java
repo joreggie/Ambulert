@@ -73,7 +73,7 @@ public class HistoryFragment extends Fragment {
                     report_location = reports.get(i).getReport_location();
                     report_type = reports.get(i).getReport_type();
                     report_created = reports.get(i).getReport_created();
-                    report_list.add(new Report("Report " + count,report_type,R.drawable.hospital,"Mambaling Cebu City",r1,report_created,""));
+                    report_list.add(new Report("Report " + count,report_type,R.drawable.hospital,report_location,r1,report_created,""));
                     count += 1;
                 }
                 lv.setDivider(null);

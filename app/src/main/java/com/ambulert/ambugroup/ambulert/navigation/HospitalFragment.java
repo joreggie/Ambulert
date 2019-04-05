@@ -19,11 +19,13 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ambulert.ambugroup.ambulert.R;
+import com.ambulert.ambugroup.ambulert.api.Ambulert;
 import com.ambulert.ambugroup.ambulert.model.Hospital;
 import com.ambulert.ambugroup.ambulert.model.HospitalAdapter;
+import com.ambulert.ambugroup.ambulert.model.HospitalNameResponse;
+import com.ambulert.ambugroup.ambulert.model.ListHospital;
 import com.ambulert.ambugroup.ambulert.userReport;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,40 +41,48 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HospitalFragment  extends Fragment implements OnMapReadyCallback {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+public class HospitalFragment extends Fragment implements OnMapReadyCallback {
 
     private final String TAG = "HospitalFragment";
     Context context;
     ArrayList<Marker> markers = new ArrayList<Marker>();
     private GoogleMap googleMap;
-    ListView lv ;
+    ListView lv;
     ArrayList<Hospital> list = new ArrayList<>();
-    HospitalAdapter adapter ;
+    HospitalAdapter adapter;
 
     AdapterView.AdapterContextMenuInfo info;
     Button alertHospital;
     TextView currentLocation;
-    String lat,lng;
+    String lat, lng;
 
-    private final AlphaAnimation btnClick = new AlphaAnimation(1F,0.8F);
+    private final AlphaAnimation btnClick = new AlphaAnimation(1F, 0.8F);
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_hospital,null);
+        return inflater.inflate(R.layout.fragment_hospital, null);
 
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         alertHospital = view.findViewById(R.id.alertHospitals);
         currentLocation = view.findViewById(R.id.currentLocation);
         alertHospital.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 v.startAnimation(btnClick);
-                Intent intent = new Intent(getActivity(),userReport.class);
-                intent.putExtra("address",currentLocation.getText().toString());
+                Intent intent = new Intent(getActivity(), userReport.class);
+                intent.putExtra("address", currentLocation.getText().toString());
                 startActivity(intent);
             }
         });
@@ -83,12 +93,11 @@ public class HospitalFragment  extends Fragment implements OnMapReadyCallback {
         lv = view.findViewById(R.id.listHospital);
         adapter = new HospitalAdapter(getActivity(), list);
 
-        list.add(new Hospital(R.drawable.hospital,"Chong Hua Hospital","Chong Hua Hospital Location","Private"));
-        list.add(new Hospital(R.drawable.hospital,"St. Vincent Hospital","St. Vincent Hospital Location","Private"));
+        list.add(new Hospital(R.drawable.hospital, "Chong Hua Hospital", "Chong Hua Hospital Location", "Private"));
+        list.add(new Hospital(R.drawable.hospital, "St. Vincent Hospital", "St. Vincent Hospital Location", "Private"));
 
         lv.setAdapter(adapter);
         registerForContextMenu(lv);
-
 
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -109,27 +118,48 @@ public class HospitalFragment  extends Fragment implements OnMapReadyCallback {
     }
 
 
-
     @Override
     public void onMapReady(GoogleMap map) {
         googleMap = map;
-        try {
-            //getHospitals();
-            geoLocate("St. Vincent General Hospital");
-            geoLocate("Chong Hua Hospital");
-            lat = getArguments().getString("lat");
-            lng = getArguments().getString("lng");
-            Toast.makeText(getActivity(), lat, Toast.LENGTH_SHORT).show();
-            Toast.makeText(getActivity(), lng, Toast.LENGTH_SHORT).show();
 
-            if(lat!=null && lng != null){
-                goToLocationZoom(Double.parseDouble(lat), Double.parseDouble(lng),15);
-            }else{
-                goToLocationZoom(10.3157,123.8854,15);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        // locate current location of patient
+        lat = getArguments().getString("lat");
+        lng = getArguments().getString("lng");
+        if (lat != null && lng != null) {
+            goToLocationZoom(Double.parseDouble(lat), Double.parseDouble(lng), 15);
+        } else {
+            goToLocationZoom(10.3157, 123.8854, 15);
         }
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Ambulert.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        Ambulert request = retrofit.create(Ambulert.class);
+        Call<HospitalNameResponse> response = request.getHospital();
+        response.enqueue(new Callback<HospitalNameResponse>() {
+            @Override
+            public void onResponse(Call<HospitalNameResponse> call, Response<HospitalNameResponse> response) {
+                HospitalNameResponse res = response.body();
+                ArrayList<ListHospital> hospitals = res.getListHospital();
+                String hospital_name;
+                for (int i = 0; i < hospitals.size(); i++) {
+                    hospital_name = hospitals.get(i).getHospital_name();
+                    try {
+                        //show all hospitals in the map
+                        geoLocate(hospital_name);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HospitalNameResponse> call, Throwable t) {
+
+            }
+        });
 
     }
 
@@ -148,21 +178,21 @@ public class HospitalFragment  extends Fragment implements OnMapReadyCallback {
 
     public void getAddress(double lat, double lng) throws IOException {
         Geocoder geocoder = new Geocoder(getActivity());
-            List<Address> addresses = geocoder.getFromLocation(lat,lng,1);
-            Address obj = addresses.get(0);
-            String add = obj.getAddressLine(0);
-            currentLocation.setText(add);
+        List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+        Address obj = addresses.get(0);
+        String add = obj.getAddressLine(0);
+        currentLocation.setText(add);
     }
 
     private void goToLocationZoom(double lat, double lng, float zoom) {
         LatLng ll = new LatLng(lat, lng);
         try {
-            getAddress(lat,lng);
+            getAddress(lat, lng);
         } catch (IOException e) {
             e.printStackTrace();
         }
         MarkerOptions mp = new MarkerOptions();
-        mp.position(new LatLng(lat,lng));
+        mp.position(new LatLng(lat, lng));
         mp.title("My Current Location");
         mp.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         googleMap.addMarker(mp);
@@ -188,8 +218,9 @@ public class HospitalFragment  extends Fragment implements OnMapReadyCallback {
 
         menu.setHeaderTitle(list.get(info.position).getHospitalName());
         View view = v;
-        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);;
-        view = (view == null) ? inflater.inflate(R.layout.layout_hospital_info,null) : view;
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        ;
+        view = (view == null) ? inflater.inflate(R.layout.layout_hospital_info, null) : view;
 //
 //        TextView hospitalName = view.findViewById(R.id.hospital_name);
 //        TextView hospitalLocation = view.findViewById(R.id.hospital_location);
