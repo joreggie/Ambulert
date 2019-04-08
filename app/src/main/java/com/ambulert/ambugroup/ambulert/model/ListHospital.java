@@ -1,8 +1,15 @@
 package com.ambulert.ambugroup.ambulert.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class ListHospital {
 
+    @SerializedName("hospital_name")
+    @Expose
     private String hospital_name;
+    @SerializedName("hospital_address")
+    @Expose
     private String hospital_address;
     private String hospital_email;
     private String hospital_contact;

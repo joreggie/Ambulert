@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -61,6 +63,7 @@ public class HospitalFragment extends Fragment implements OnMapReadyCallback {
     Button alertHospital;
     TextView currentLocation;
     String lat, lng;
+    LinearLayout loading;
 
     private final AlphaAnimation btnClick = new AlphaAnimation(1F, 0.8F);
 
@@ -86,6 +89,8 @@ public class HospitalFragment extends Fragment implements OnMapReadyCallback {
                 startActivity(intent);
             }
         });
+        loading = view.findViewById(R.id.nameofProgress);
+        loading.setVisibility(View.VISIBLE);
 
         SupportMapFragment supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         supportMapFragment.getMapAsync(this);
@@ -141,8 +146,10 @@ public class HospitalFragment extends Fragment implements OnMapReadyCallback {
         response.enqueue(new Callback<HospitalNameResponse>() {
             @Override
             public void onResponse(Call<HospitalNameResponse> call, Response<HospitalNameResponse> response) {
+                loading.setVisibility(View.GONE);
                 HospitalNameResponse res = response.body();
                 ArrayList<ListHospital> hospitals = res.getListHospital();
+                Log.d(TAG,"Respo:"+hospitals);
                 String hospital_name;
                 for (int i = 0; i < hospitals.size(); i++) {
                     hospital_name = hospitals.get(i).getHospital_name();
