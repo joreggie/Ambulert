@@ -38,6 +38,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -98,28 +99,40 @@ public class HospitalFragment extends Fragment implements OnMapReadyCallback {
         lv = view.findViewById(R.id.listHospital);
         adapter = new HospitalAdapter(getActivity(), list);
 
-        list.add(new Hospital(R.drawable.hospital, "Chong Hua Hospital", "Chong Hua Hospital Location", "Private"));
-        list.add(new Hospital(R.drawable.hospital, "St. Vincent Hospital", "St. Vincent Hospital Location", "Private"));
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Ambulert.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-        lv.setAdapter(adapter);
-        registerForContextMenu(lv);
-
-
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        Ambulert request = retrofit.create(Ambulert.class);
+        Call<HospitalNameResponse> response = request.getHospital();
+        response.enqueue(new Callback<HospitalNameResponse>() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-                ab.setTitle("adasdda");
-                ab.setMessage("asdad");
-                ab.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+            public void onResponse(Call<HospitalNameResponse> call, Response<HospitalNameResponse> response) {
+                loading.setVisibility(View.GONE);
+                HospitalNameResponse res = response.body();
+                ArrayList<ListHospital> hospitals = res.getListHospital();
+                String hospital_name,hospital_address,hospital_type;
+                for (int i = 0; i < hospitals.size(); i++) {
+                    hospital_name = hospitals.get(i).getHospital_name();
+                    hospital_address=hospitals.get(i).getHospital_address();
+                    hospital_type=hospitals.get(i).getHospital_type();
 
-                    }
-                });
-                ab.show();
+                    list.add(new Hospital(R.drawable.hospital, hospital_name, hospital_address, hospital_type));
+
+                    lv.setAdapter(adapter);
+                    registerForContextMenu(lv);
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<HospitalNameResponse> call, Throwable t) {
+                t.printStackTrace();
             }
         });
+
     }
 
 
@@ -149,7 +162,6 @@ public class HospitalFragment extends Fragment implements OnMapReadyCallback {
                 loading.setVisibility(View.GONE);
                 HospitalNameResponse res = response.body();
                 ArrayList<ListHospital> hospitals = res.getListHospital();
-                Log.d(TAG,"Respo:"+hospitals);
                 String hospital_name;
                 for (int i = 0; i < hospitals.size(); i++) {
                     hospital_name = hospitals.get(i).getHospital_name();
@@ -164,9 +176,11 @@ public class HospitalFragment extends Fragment implements OnMapReadyCallback {
 
             @Override
             public void onFailure(Call<HospitalNameResponse> call, Throwable t) {
-
+                t.printStackTrace();
             }
         });
+
+
 
     }
 
@@ -228,15 +242,15 @@ public class HospitalFragment extends Fragment implements OnMapReadyCallback {
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ;
         view = (view == null) ? inflater.inflate(R.layout.layout_hospital_info, null) : view;
-//
-//        TextView hospitalName = view.findViewById(R.id.hospital_name);
-//        TextView hospitalLocation = view.findViewById(R.id.hospital_location);
-//        TextView hospitalType = view.findViewById(R.id.hospital_type);
-//
-//        hospitalName.setText(list.get(info.position).getHospitalName());
-//        hospitalLocation.setText(list.get(info.position).getHospitalLocation());
-//        hospitalType.setText(list.get(info.position).getHospitalType());
-//
+
+        TextView hospitalName = view.findViewById(R.id.hospital_name);
+        TextView hospitalLocation = view.findViewById(R.id.hospital_location);
+        TextView hospitalType = view.findViewById(R.id.hospital_type);
+
+        hospitalName.setText(list.get(info.position).getHospitalName());
+        hospitalLocation.setText(list.get(info.position).getHospitalLocation());
+        hospitalType.setText(list.get(info.position).getHospitalType());
+
         menu.setHeaderView(view);
     }
 }

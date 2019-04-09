@@ -5,8 +5,14 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 
 import com.ambulert.ambugroup.ambulert.api.Ambulert;
+import com.ambulert.ambugroup.ambulert.model.HospitalNameResponse;
+import com.ambulert.ambugroup.ambulert.model.LocationResponse;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -19,6 +25,9 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.io.IOException;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -29,11 +38,13 @@ public class ResponderHome extends AppCompatActivity implements OnMapReadyCallba
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_responder_home);
 
         SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map2);
         supportMapFragment.getMapAsync(this);
+
     }
 
     @Override
@@ -96,11 +107,27 @@ public class ResponderHome extends AppCompatActivity implements OnMapReadyCallba
     }
 
     private void getReport(){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Ambulert.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        Ambulert service = retrofit.create(Ambulert.class);
-//        Call<>
+
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.home,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if (id == R.id.logout) {
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+
 }

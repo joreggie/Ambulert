@@ -12,4 +12,5 @@
         <item>Responder</item>
     </string-array>
     <string name="title_activity_user_report">userReport</string>
+    <string name="title_activity_profile">ProfileActivity</string>
 </resources>

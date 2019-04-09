@@ -3,6 +3,7 @@ package com.ambulert.ambugroup.ambulert.api;
 import com.ambulert.ambugroup.ambulert.model.AlertHospital;
 import com.ambulert.ambugroup.ambulert.model.FCMToken;
 import com.ambulert.ambugroup.ambulert.model.HospitalNameResponse;
+import com.ambulert.ambugroup.ambulert.model.LocationResponse;
 import com.ambulert.ambugroup.ambulert.model.ResponderSignInResponse;
 import com.ambulert.ambugroup.ambulert.model.SignInResponder;
 import com.ambulert.ambugroup.ambulert.model.SignInResponse;
@@ -51,4 +52,9 @@ public interface Ambulert {
     @Headers("Content-Type: application/json")
     @GET("hospitals")
     Call<HospitalNameResponse> getHospital();
+
+    @Headers("Content-Type: application/json")
+    @POST("location")
+    Call<LocationResponse> getLocation();
+
 }

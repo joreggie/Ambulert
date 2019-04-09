@@ -43,7 +43,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="TextView"
-                        android:textSize="18sp"
+                        android:textSize="24sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -64,6 +64,7 @@
                         android:id="@+id/reportDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:text="TextView" />
@@ -72,6 +73,7 @@
                         android:id="@+id/reportTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:text="TextView" />
@@ -82,19 +84,6 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/reportSave"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Save" />
-
-                    <Button
-                        android:id="@+id/reportView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="View" />
                 </LinearLayout>
 
             </LinearLayout>

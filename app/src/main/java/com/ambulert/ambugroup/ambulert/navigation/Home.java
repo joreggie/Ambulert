@@ -24,8 +24,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ambulert.ambugroup.ambulert.ProfileActivity;
 import com.ambulert.ambugroup.ambulert.R;
 import com.ambulert.ambugroup.ambulert.model.PreferenceDataUser;
 
@@ -116,6 +118,16 @@ public class Home extends AppCompatActivity
             locman.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         }
 
+        View headView = navigationView.getHeaderView(0);
+        ImageView editProfile = headView.findViewById(R.id.editProfile);
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Home.this,ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -140,28 +152,6 @@ public class Home extends AppCompatActivity
             a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(a);
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
