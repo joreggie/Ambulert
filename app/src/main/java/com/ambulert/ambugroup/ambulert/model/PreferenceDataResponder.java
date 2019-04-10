@@ -86,6 +86,7 @@ public class PreferenceDataResponder {
         editor.remove(pref_firstame);
         editor.remove(pref_middlename);
         editor.remove(pref_lastname);
+        editor.remove(pref_status);
 
         editor.commit();
     }

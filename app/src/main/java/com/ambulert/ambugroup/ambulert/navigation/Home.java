@@ -63,11 +63,15 @@ public class Home extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerLayout = navigationView.getHeaderView(0);
+        String first_name = PreferenceDataUser.getLoggedInFirstname(Home.this);
+        String middle_name = PreferenceDataUser.getLoggedInMiddlename(Home.this);
+        String last_name = PreferenceDataUser.getLoggedInLastname(Home.this);
+        String email = PreferenceDataUser.getLoggedInEmail(Home.this);
 
         TextView tvName  = headerLayout.findViewById(R.id.userName);
-//        tvName.setText(first_name + " " + last_name);
+        tvName.setText(first_name + " " +  middle_name + " " + last_name);
         TextView tvEmail = headerLayout.findViewById(R.id.userEmail);
-//        tvEmail.setText(email);
+        tvEmail.setText(email);
 
         navigationView.setNavigationItemSelectedListener(this);
 
