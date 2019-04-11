@@ -24,6 +24,11 @@ import com.ambulert.ambugroup.ambulert.model.HospitalNameResponse;
 import com.ambulert.ambugroup.ambulert.model.LocationResponse;
 import com.ambulert.ambugroup.ambulert.model.PreferenceDataResponder;
 import com.ambulert.ambugroup.ambulert.model.PreferenceDataUser;
+import com.ambulert.ambugroup.ambulert.model.Report;
+import com.ambulert.ambugroup.ambulert.model.Responders;
+import com.ambulert.ambugroup.ambulert.model.UserId;
+import com.ambulert.ambugroup.ambulert.model.UserIdResponse;
+import com.ambulert.ambugroup.ambulert.model.reportItem;
 import com.ambulert.ambugroup.ambulert.navigation.Home;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -38,6 +43,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -136,21 +142,9 @@ public class ResponderHome extends AppCompatActivity implements OnMapReadyCallba
 
         if(lat != null && lng != null){
             loading.setVisibility(View.GONE);
-            goToLocationZoom(Double.parseDouble(lat),Double.parseDouble(lng),15);
+            goToLocationZoom(Double.parseDouble(lat),Double.parseDouble(lng),15,"St. Vincent General Hospital");
 
         }
-
-        // Instantiates a new Polyline object and adds points to define a rectangle
-        PolylineOptions rectOptions = null; // Closes the polyline.
-        try {
-            rectOptions = new PolylineOptions()
-                    .add(geoCode("Chong Hua Hospital"))
-                    .add(geoCode("St. Vincent General Hospital"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // Get back the mutable Polyline
-        Polyline polyline = map.addPolyline(rectOptions);
     }
 
     public LatLng geoCode(String location) throws IOException {
@@ -166,8 +160,45 @@ public class ResponderHome extends AppCompatActivity implements OnMapReadyCallba
     }
 
     private void getReport(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Ambulert.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Ambulert request = retrofit.create(Ambulert.class);
+        Log.d(TAG,"Userid"+ userid);
+        Call<UserIdResponse> response = request.userId(new UserId(userid));
+    
+
+        }
+    public void getAddress(double lat, double lng) throws IOException {
+        Geocoder geocoder = new Geocoder(ResponderHome.this);
+        List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+        Address obj = addresses.get(0);
+        String add = obj.getAddressLine(0);
+    }
+
+    private void goToLocationZoom(double lat, double lng, float zoom,String location) {
+        LatLng ll = new LatLng(lat, lng);
+        try {
+            getAddress(lat, lng);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // Instantiates a new Polyline object and adds points to define a rectangle
+        PolylineOptions rectOptions = null; // Closes the polyline.
+        try {
+            rectOptions = new PolylineOptions()
+                    .add(ll)
+                    .add(geoCode(location));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // Get back the mutable Polyline
+        Polyline polyline = googleMap.addPolyline(rectOptions);
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ll, 12.0f));
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -186,30 +217,5 @@ public class ResponderHome extends AppCompatActivity implements OnMapReadyCallba
 
         return super.onOptionsItemSelected(item);
     }
-    public void getAddress(double lat, double lng) throws IOException {
-        Geocoder geocoder = new Geocoder(ResponderHome.this);
-        List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
-        Address obj = addresses.get(0);
-        String add = obj.getAddressLine(0);
-    }
-
-    private void goToLocationZoom(double lat, double lng, float zoom) {
-        LatLng ll = new LatLng(lat, lng);
-        try {
-            getAddress(lat, lng);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        MarkerOptions mp = new MarkerOptions();
-        mp.position(new LatLng(lat, lng));
-        mp.title("My Current Location");
-        mp.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-        googleMap.addMarker(mp);
-        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, zoom);
-        googleMap.moveCamera(update);
-
-    }
-
-
 
 }
