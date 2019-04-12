@@ -3,19 +3,22 @@ package com.ambulert.ambugroup.ambulert.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class LocationResponse {
 
-    @SerializedName("report")
-    @Expose
-    private ArrayList<Report> listReports;
+    private ReportInfo report_info;
 
-    public LocationResponse(ArrayList<Report> listReports) {
-        this.listReports = listReports;
+    public LocationResponse(ReportInfo report_info) {
+        this.report_info = report_info;
     }
 
-    public ArrayList<Report> getListReports() {
-        return listReports;
+    public ReportInfo getReport_info() {
+        return report_info;
+    }
+
+    public void setReport_info(ReportInfo report_info) {
+        this.report_info = report_info;
     }
 }
