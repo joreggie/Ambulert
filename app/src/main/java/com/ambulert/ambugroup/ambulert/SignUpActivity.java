@@ -37,6 +37,10 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Sign up");
+
         userSignUp = findViewById(R.id.signUp);
         layoutFirstname = findViewById(R.id.layoutSignUpFirstName);
         layoutMiddlename = findViewById(R.id.layoutSignUpMiddleName);
@@ -146,4 +150,9 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
 }

@@ -7,23 +7,19 @@
     android:orientation="vertical"
     tools:context=".ResponderSignIn">
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginRight="70dp"
-        android:layout_marginBottom="50dp"
-        android:text="Responder sign in "
-        android:textAllCaps="false"
-        android:textColor="#ff5252"
-        android:textSize="30sp" />
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        app:srcCompat="@drawable/medic" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/layoutResponderId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"
         android:gravity="center_vertical">
 
