@@ -9,15 +9,6 @@
     tools:context=".ProfileActivity"
     tools:showIn="@layout/activity_profile">
 
-    <ImageView
-        android:id="@+id/userImage"
-        android:layout_width="150dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        app:srcCompat="@mipmap/ic_launcher_round" />
-
     <android.support.design.widget.TextInputLayout
         android:id="@+id/layoutUserFname"
         android:layout_width="match_parent"
@@ -29,7 +20,8 @@
         <android.support.design.widget.TextInputEditText
             android:id="@+id/inputUserFname"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout

@@ -4,6 +4,8 @@ import com.ambulert.ambugroup.ambulert.model.AlertHospital;
 import com.ambulert.ambugroup.ambulert.model.FCMToken;
 import com.ambulert.ambugroup.ambulert.model.HospitalNameResponse;
 import com.ambulert.ambugroup.ambulert.model.LocationResponse;
+import com.ambulert.ambugroup.ambulert.model.Profile;
+import com.ambulert.ambugroup.ambulert.model.ProfileResponse;
 import com.ambulert.ambugroup.ambulert.model.ResponderId;
 import com.ambulert.ambugroup.ambulert.model.ResponderSignInResponse;
 import com.ambulert.ambugroup.ambulert.model.SignInResponder;
@@ -57,5 +59,9 @@ public interface Ambulert {
     @Headers("Content-Type: application/json")
     @POST("responder/reports")
     Call<LocationResponse> getTwoLocation(@Body ResponderId body);
+
+    @Headers("Content-Type: application/json")
+    @POST("profile")
+    Call<ProfileResponse> updateProfile(@Body Profile body);
 
 }
