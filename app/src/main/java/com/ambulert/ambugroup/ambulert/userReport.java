@@ -139,28 +139,6 @@ public class userReport extends AppCompatActivity {
                 filepath = storageReference.child("ProfilePicture/"+randomString(16)+"/"+photoName);
                 uploadFile(imagePath);
 
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(Ambulert.BASE_URL)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-                Ambulert request = retrofit.create(Ambulert.class);
-                Call<UserReportResponse> response = request.alertHospital(new AlertHospital(userid,location,emergencyType,others));
-                response.enqueue(new Callback<UserReportResponse>() {
-                    @Override
-                    public void onResponse(Call<UserReportResponse> call, Response<UserReportResponse> response) {
-                        UserReportResponse res = response.body();
-                        if(res.getAdd_report().equals("success")){
-                            Toast.makeText(userReport.this, "Report submitted, please wait for a hospital to respond.", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(userReport.this, "Report was not submitted, please try again.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<UserReportResponse> call, Throwable t) {
-                        Toast.makeText(userReport.this, "Please check your internet connection.", Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
         });
     }
@@ -203,7 +181,28 @@ public class userReport extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
                     final String picuri = downloadUri.toString();
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(Ambulert.BASE_URL)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+                    Ambulert request = retrofit.create(Ambulert.class);
+                    Call<UserReportResponse> response = request.alertHospital(new AlertHospital(userid,location,picuri,emergencyType,others));
+                    response.enqueue(new Callback<UserReportResponse>() {
+                        @Override
+                        public void onResponse(Call<UserReportResponse> call, Response<UserReportResponse> response) {
+                            UserReportResponse res = response.body();
+                            if(res.getAdd_report().equals("success")){
+                                Toast.makeText(userReport.this, "Report submitted, please wait for a hospital to respond.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(userReport.this, "Report was not submitted, please try again.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
 
+                        @Override
+                        public void onFailure(Call<UserReportResponse> call, Throwable t) {
+                            Toast.makeText(userReport.this, "Please check your internet connection.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Something went wrong while uploading your profile.", Toast.LENGTH_SHORT).show();

@@ -68,7 +68,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:gravity="center"
-        android:text="List of hospitals within a  10 km radius"
+        android:text="List of hospitals within Cebu City"
         android:textSize="16sp" />
 
     <ListView
