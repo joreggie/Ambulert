@@ -21,6 +21,8 @@ import com.ambulert.ambugroup.ambulert.model.UserId;
 import com.ambulert.ambugroup.ambulert.model.UserIdResponse;
 import com.ambulert.ambugroup.ambulert.model.reportItem;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -36,6 +38,7 @@ public class HistoryFragment extends Fragment {
     ReportAdapter adapter ;
     LinearLayout loading;
     private final String TAG="HistoryFragment";
+    String output;
 
     @Nullable
     @Override
@@ -50,6 +53,7 @@ public class HistoryFragment extends Fragment {
         adapter = new ReportAdapter(getActivity(), report_list);
         loading = view.findViewById(R.id.nameofProgress);
         loading.setVisibility(View.VISIBLE);
+
 
         String userid = PreferenceDataUser.getLoggedInUserid(getActivity());
 
@@ -73,7 +77,7 @@ public class HistoryFragment extends Fragment {
                     report_location = reports.get(i).getReport_location();
                     report_type = reports.get(i).getReport_type();
                     report_created = reports.get(i).getReport_created();
-                    report_list.add(new Report("Report " + count,report_type,R.drawable.hospital,report_location,r1,report_created,""));
+                    report_list.add(new Report("Report " + count,report_type,R.drawable.hospital,report_location,r1,isoToDate(report_created),""));
                     count += 1;
                 }
                 lv.setDivider(null);
@@ -86,15 +90,16 @@ public class HistoryFragment extends Fragment {
             }
         });
 
-
-
-
-
-
-
-
-
     }
+    private String isoToDate(String input) {
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            output = dateFormat.format(dateFormat.parse(input));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return output;
+    }
 
 }
