@@ -122,12 +122,14 @@ public class ResponderHome extends AppCompatActivity implements OnMapReadyCallba
                             .title("The Patient"));
                     googleMap.moveCamera(CameraUpdateFactory.newLatLng(geoCode(responder)));
 
+
+                    googleMap.animateCamera(CameraUpdateFactory.zoomBy(15));
+                    Polyline polyline = googleMap.addPolyline(rectOptions);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                googleMap.animateCamera(CameraUpdateFactory.zoomBy(15));
-                Polyline polyline = googleMap.addPolyline(rectOptions);
+
             }
 
             @Override
