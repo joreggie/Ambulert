@@ -61,6 +61,10 @@ public interface Ambulert {
     Call<LocationResponse> getTwoLocation(@Body ResponderId body);
 
     @Headers("Content-Type: application/json")
+    @POST("responder/completion")
+    Call<LocationResponse> getResponderId(@Body ResponderId body);
+
+    @Headers("Content-Type: application/json")
     @POST("profile")
     Call<ProfileResponse> updateProfile(@Body Profile body);
 

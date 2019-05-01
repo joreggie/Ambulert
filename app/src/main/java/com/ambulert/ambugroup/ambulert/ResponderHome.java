@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ public class ResponderHome extends AppCompatActivity implements OnMapReadyCallba
     private GoogleMap googleMap;
     String patient, responder;
     TextView user_location;
+    Button complete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,35 @@ public class ResponderHome extends AppCompatActivity implements OnMapReadyCallba
         supportMapFragment.getMapAsync(this);
 
         user_location = findViewById(R.id.user_location);
+        complete = findViewById(R.id.complete);
 
+        complete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(Ambulert.BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                Ambulert service = retrofit.create(Ambulert.class);
+
+                Call<LocationResponse> ResponderId = service.getResponderId(new ResponderId(PreferenceDataResponder.getLoggedInResponderId(ResponderHome.this)));
+                ResponderId.enqueue(new Callback<LocationResponse>() {
+                    @Override
+                    public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
+                        LocationResponse resp = response.body();
+
+                        Toast.makeText(ResponderHome.this, "Completed Task", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<LocationResponse> call, Throwable t) {
+                       t.printStackTrace();
+                    }
+                });
+            }
+        });
         loading = findViewById(R.id.nameofProgress);
         loading.setVisibility(View.VISIBLE);
     }

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 public class LocationResponse {
 
     private ReportInfo report_info;
-
     public LocationResponse(ReportInfo report_info) {
         this.report_info = report_info;
     }
