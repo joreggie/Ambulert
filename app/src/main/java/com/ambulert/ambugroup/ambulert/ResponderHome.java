@@ -19,6 +19,7 @@ import com.ambulert.ambugroup.ambulert.model.LocationResponse;
 import com.ambulert.ambugroup.ambulert.model.PreferenceDataResponder;
 import com.ambulert.ambugroup.ambulert.model.ReportInfo;
 import com.ambulert.ambugroup.ambulert.model.ResponderId;
+import com.ambulert.ambugroup.ambulert.model.ResponderIdResponse;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -69,20 +70,21 @@ public class ResponderHome extends AppCompatActivity implements OnMapReadyCallba
 
                 Ambulert service = retrofit.create(Ambulert.class);
 
-                Call<LocationResponse> ResponderId = service.getResponderId(new ResponderId(PreferenceDataResponder.getLoggedInResponderId(ResponderHome.this)));
-                ResponderId.enqueue(new Callback<LocationResponse>() {
+                Call<ResponderIdResponse> ResponderId = service.getResponderId(new ResponderId(PreferenceDataResponder.getLoggedInResponderId(ResponderHome.this)));
+                ResponderId.enqueue(new Callback<ResponderIdResponse>() {
                     @Override
-                    public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
-                        LocationResponse resp = response.body();
-
-                        Toast.makeText(ResponderHome.this, "Completed Task", Toast.LENGTH_SHORT).show();
+                    public void onResponse(Call<ResponderIdResponse> call, Response<ResponderIdResponse> response) {
+                        ResponderIdResponse resp = response.body();
+                        Toast.makeText(ResponderHome.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void onFailure(Call<LocationResponse> call, Throwable t) {
-                       t.printStackTrace();
+                    public void onFailure(Call<ResponderIdResponse> call, Throwable t) {
+                        t.printStackTrace();
                     }
                 });
+
+
             }
         });
         loading = findViewById(R.id.nameofProgress);
@@ -132,33 +134,35 @@ public class ResponderHome extends AppCompatActivity implements OnMapReadyCallba
 
                 ReportInfo r = resp.getReport_info();
 
-                patient = r.getReport_info().getReport_location();
-                responder = r.getHospital().getHospital_name();
-                user_location.setText(patient);
+                if(r.equals("")){
+                    user_location.setText("There is have no assigned patient yet");
+                }else{
+                    patient = r.getReport_info().getReport_location();
+                    responder = r.getHospital().getHospital_name();
+                    user_location.setText(patient);
+                    // Instantiates a new Polyline object and adds points to define a rectangle
+                    PolylineOptions rectOptions = null;
+                    try {
+                        Toast.makeText(ResponderHome.this, responder, Toast.LENGTH_SHORT).show();
+                        rectOptions = new PolylineOptions()
+                                .add(geoCode(responder))
+                                .add(geoCode(patient));
+                        googleMap.addMarker(new MarkerOptions()
+                                .position(geoCode(responder))
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                .title("You"));
+                        googleMap.addMarker(new MarkerOptions()
+                                .position(geoCode(patient))
+                                .title("The Patient"));
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLng(geoCode(responder)));
 
-                // Instantiates a new Polyline object and adds points to define a rectangle
-                PolylineOptions rectOptions = null;
-                try {
-                    Toast.makeText(ResponderHome.this, responder, Toast.LENGTH_SHORT).show();
-                    rectOptions = new PolylineOptions()
-                            .add(geoCode(responder))
-                            .add(geoCode(patient));
-                    googleMap.addMarker(new MarkerOptions()
-                            .position(geoCode(responder))
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                            .title("You"));
-                    googleMap.addMarker(new MarkerOptions()
-                            .position(geoCode(patient))
-                            .title("The Patient"));
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(geoCode(responder)));
 
-
-                    googleMap.animateCamera(CameraUpdateFactory.zoomBy(15));
-                    Polyline polyline = googleMap.addPolyline(rectOptions);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                        googleMap.animateCamera(CameraUpdateFactory.zoomBy(15));
+                        Polyline polyline = googleMap.addPolyline(rectOptions);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-
 
             }
 

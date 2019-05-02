@@ -7,6 +7,7 @@ import com.ambulert.ambugroup.ambulert.model.LocationResponse;
 import com.ambulert.ambugroup.ambulert.model.Profile;
 import com.ambulert.ambugroup.ambulert.model.ProfileResponse;
 import com.ambulert.ambugroup.ambulert.model.ResponderId;
+import com.ambulert.ambugroup.ambulert.model.ResponderIdResponse;
 import com.ambulert.ambugroup.ambulert.model.ResponderSignInResponse;
 import com.ambulert.ambugroup.ambulert.model.SignInResponder;
 import com.ambulert.ambugroup.ambulert.model.SignInResponse;
@@ -62,7 +63,7 @@ public interface Ambulert {
 
     @Headers("Content-Type: application/json")
     @POST("responder/completion")
-    Call<LocationResponse> getResponderId(@Body ResponderId body);
+    Call<ResponderIdResponse> getResponderId(@Body ResponderId body);
 
     @Headers("Content-Type: application/json")
     @POST("profile")
